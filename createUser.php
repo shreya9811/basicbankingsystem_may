@@ -12,39 +12,40 @@
 
 <body style="background-color : #82E0AA;">
 <?php
- include 'config.php';
- if(isset($_POST['submit'])){
+    include 'config.php';
+    if(isset($_POST['submit'])){
     $name=$_POST['name'];
     $email=$_POST['email'];
     $balance=$_POST['balance'];
-    $sql = "insert into users(name,email,balance) values('{$name}','{$email}','{$balance}')";
+    $sql="insert into users(name,email,balance) values('{$name}','{$email}','{$balance}')";
     $result=mysqli_query($conn,$sql);
     if($result){
-        echo "<script> alert('User added successfully');
-        window.location='transferMoney.php';
-        </script>";
+               echo "<script> alert('Hurray! User created');
+                               window.location='transfermoney.php';
+                     </script>";
+                    
     }
- }
+  }
 ?>
 
 <?php
   include 'navbar.php';
 ?>
 
-<h2 class="text-center pt-4" style="color : black;">Add a User</h2>
+        <h2 class="text-center pt-4" style="color : black;">Create a User</h2>
         <br>
 
-<div class="background">
-    <div class="container">
-        <div class="screen">
-        <div class="screen-header">
+  <div class="background">
+  <div class="container">
+    <div class="screen">
+      <div class="screen-header">
         <div class="screen-header-right">
           <div class="screen-header-ellipsis"></div>
           <div class="screen-header-ellipsis"></div>
           <div class="screen-header-ellipsis"></div>
         </div>
-        </div>
-        <div class="screen-body">
+      </div>
+      <div class="screen-body">
         <div class="screen-body-item left">
           <img class="img-fluid" src="img/user3.jpg" style="border: none; border-radius: 50%;">
         </div>
@@ -67,17 +68,13 @@
           </form>
         </div>
       </div>
-        </div>
     </div>
-</div>      
-
+  </div>
+</div>
 <footer class="text-center mt-5 py-2">
-            <p>Made by <b>SHeya Jaiswal</b> <br>The Sparks Foundation</p>
+            <p>Made by <b>Shreya Jaiswal</b></p>
 </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </body>
-
-
-
 </html>

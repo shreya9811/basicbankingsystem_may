@@ -1,66 +1,82 @@
 <?php
-
 include 'config.php';
 
 if(isset($_POST['submit']))
 {
-    $from= $_GET['id'];
+    $from = $_GET['id'];
     $to = $_POST['to'];
     $amount = $_POST['amount'];
+
     $sql = "SELECT * from users where id=$from";
     $query = mysqli_query($conn,$sql);
-    $sql1 = mysqli_fetch_array($query); // returns output of user from which the amount is to be transferred.
+    $sql1 = mysqli_fetch_array($query); // returns array or output of user from which the amount is to be transferred.
 
-    //to tranfer amount to
     $sql = "SELECT * from users where id=$to";
     $query = mysqli_query($conn,$sql);
     $sql2 = mysqli_fetch_array($query);
 
+
+
     // constraint to check input of negative value by user
-    if (($amount)<0 || ($amount) == 0)
+    if (($amount)<0)
    {
         echo '<script type="text/javascript">';
-        echo ' alert("Invalid Amount")';  // showing an alert box.
+        echo ' alert("Oops! Negative values cannot be transferred")';  // showing an alert box.
         echo '</script>';
     }
+
+
+  
     // constraint to check insufficient balance.
     else if($amount > $sql1['balance']) 
     {
         
         echo '<script type="text/javascript">';
-        echo ' alert("Insufficient Balance")';  // showing an alert box.
+        echo ' alert("Bad Luck! Insufficient Balance")';  // showing an alert box.
         echo '</script>';
     }
-    else {
-         // deducting amount from sender's account
-         $newbalance = $sql1['balance'] - $amount;
-         $sql = "UPDATE users set balance=$newbalance where id=$from";
-         mysqli_query($conn,$sql);
-          // adding amount to reciever's account
-          $newbalance = $sql2['balance'] + $amount;
-          $sql = "UPDATE users set balance=$newbalance where id=$to";
-          mysqli_query($conn,$sql);
+    
 
-          $sender = $sql1['name'];
+
+    // constraint to check zero values
+    else if($amount == 0){
+
+         echo "<script type='text/javascript'>";
+         echo "alert('Oops! Zero value cannot be transferred')";
+         echo "</script>";
+     }
+
+
+    else {
+        
+                // deducting amount from sender's account
+                $newbalance = $sql1['balance'] - $amount;
+                $sql = "UPDATE users set balance=$newbalance where id=$from";
+                mysqli_query($conn,$sql);
+             
+
+                // adding amount to reciever's account
+                $newbalance = $sql2['balance'] + $amount;
+                $sql = "UPDATE users set balance=$newbalance where id=$to";
+                mysqli_query($conn,$sql);
+                
+                $sender = $sql1['name'];
                 $receiver = $sql2['name'];
                 $sql = "INSERT INTO transaction(`sender`, `receiver`, `balance`) VALUES ('$sender','$receiver','$amount')";
                 $query=mysqli_query($conn,$sql);
 
                 if($query){
-                    echo "<script> alert('Transaction Successful');
-                                    window.location='transactionhistory.php';
-                          </script>";
-                   
-               }
+                     echo "<script> alert('Transaction Successful');
+                                     window.location='transactionhistory.php';
+                           </script>";
+                    
+                }
 
-               $newb alance= 0;
-               $amount =0;
-
-    }
-
-
+                $newbalance= 0;
+                $amount =0;
+        }
+    
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -161,7 +177,7 @@ if(isset($_POST['submit']))
         </form>
     </div>
     <footer class="text-center mt-5 py-2">
-            <p>&copy 2021. Made by <b>AYUSH PRAJAPATI</b> <br> Ayush Prajapati Foundation</p>
+    <p>Made by <b>Shreya Jaiswal</b></p>
     </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
